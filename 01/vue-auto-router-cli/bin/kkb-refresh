@@ -7,10 +7,10 @@ const chalk = require('chalk')
 program.action(() => {
     console.log('refresh...')
 })
-program.pares(process.argv)
+program.parse(process.argv)
 
-const fs = requir('fs')
-const handlebars = requir('handlebars')
+const fs = require('fs')
+const handlebars = require('handlebars')
 
 const list = fs.readdirSync('./src/views')
                .filter(v => v !== 'Home.vue')
