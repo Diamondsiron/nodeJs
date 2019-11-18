@@ -3,15 +3,15 @@ const path = require('path')
 
 module.exports = (dirPath = './public') => {
     return async (ctx, next) => {
-        if (ctx.url.indexOf("./public") === 0) {
+        if (ctx.url.indexOf("/public") === 0) {
             const url = path.resolve(__dirname, dirPath)
             const fileBaseName = path.basename(url)
-            const filePath = url + ctx.url.replace("/pubilc", "")
+            const filePath = url + ctx.url.replace("/public", "")
             console.log(fileBaseName,filePath)
             try {
                 stats = fs.statSync(filePath)
                 if(stats.isDirectory()) {
-                    const dir = fs.readdirSync(filepath)
+                    const dir = fs.readdirSync(filePath)
                     const ret = ['<div style="padding-left:20px">']
                     dir.forEach(filename => {
                         console.log(filename)
@@ -33,10 +33,11 @@ module.exports = (dirPath = './public') => {
                 } else {
                     console.log("文件")
 
-                    const content = fs.readFileSync(filepath)
+                    const content = fs.readFileSync(filePath)
                     ctx.body = content
                 }
             } catch (error) {
+                console.log(error)
                 // 报错了 文件不存在
                 ctx.body = "404"
             }

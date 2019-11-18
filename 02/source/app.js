@@ -3,8 +3,8 @@ const app = new ZOA()
 
 
 const static = require('./static')
-app.use(static(__dirname + '/pubilc'))
-
+app.use(static(__dirname + '/public'))
+//http://localhost:3000/public/index.html
 const Router = require('./router')
 const router = new Router()
 
