@@ -9,6 +9,7 @@ class ZOA {
     listen(...args) {
         const server = http.createServer(async (req, res) => {
             //上下文把需要的值传入上下文中
+            //中间件最后都要执行await next()方法
             const ctx = this.createContext(req, res)
             const fn = this.compose(this.middlewares)
             await fn(ctx)
