@@ -10,6 +10,7 @@ module.exports = (dirPath = './public') => {
             console.log(fileBaseName,filePath)
             try {
                 stats = fs.statSync(filePath)
+                console.log(stats,stats.isDirectory())
                 if(stats.isDirectory()) {
                     const dir = fs.readdirSync(filePath)
                     const ret = ['<div style="padding-left:20px">']
@@ -30,6 +31,7 @@ module.exports = (dirPath = './public') => {
                     })
                     ret.push("</div>")
                     ctx.body = ret.join("")
+                    //ctx.body = "405"
                 } else {
                     console.log("文件")
 
