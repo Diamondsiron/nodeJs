@@ -18,7 +18,8 @@ const server = http.createServer((request, response) => {
             date:'20191115'
         }))
     } else if (method === 'GET' && headers.accept.indexOf('image/*') !== -1) {
-        //TODO 开放加载图片后有favicon.ico找不到的问题
+        // 开放加载图片后有favicon.ico找不到的问题
+        // 请求favicon.ico是浏览器的默认行为
         fs.createReadStream('./'+url).pipe(response)
     } else {
         response.statusCode = 404

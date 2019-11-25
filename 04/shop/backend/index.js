@@ -163,5 +163,6 @@ sequelize.sync().then(
             })
             await user.createCart();
         }
+        //先链接数据库 然后链接项目
         app.listen(3000, () => console.log("Listening to port 3000"));
     })
