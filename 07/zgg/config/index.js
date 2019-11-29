@@ -2,9 +2,9 @@ module.exports = {
     db: {
         dialect: 'mysql',
         host: 'localhost',
-        database: 'kaikeba',
+        database: 'app',
         username: 'root',
-        password: 'example'
+        password: '123456'
     },
     middleware: ['logger']
 }
