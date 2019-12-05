@@ -52,32 +52,35 @@ function logs(target, name, descriptor) {
     }
     return descriptor;
 }
-var log = (rules) => {
-    return function log(target, name, descriptor) {
-        console.log(target, name, descriptor)
-        const xx = {
-            username:[{ required: true, message: "用户名必填" }]
-        }
-          
+var log = (type)=> (rules) => (target, name, descriptor) => {
         var oldValue = descriptor.value;
         //修改入参
         descriptor.value = function () {
+            const ctx = arguments[0]
+            const data = arguments
+            console.log(data,'data')
             const schema = new Schema(rules)
-            schema.validate({'username': 'value'}).then(() => {
-                // validation passed or without error message
-            }).catch(({ errors, fields }) => {
-                throw errors
+            
+            schema.validate(data).then(() => {
+                
+            }).catch(({ errors }) => {
+                console.log('有错误')
+                //throw new Error(errors)
             })
-            return oldValue.apply(null, [1,3]);
+            return oldValue.apply(null, arguments);
         }
         return descriptor;
     }
-}
+
 
 class Maths {
-    @log({
+    @log('body')({
         username:[{ required: true, message: "用户名必填" }]
     })
+    say(username){
+        console.log(username)
+    }
+
     add(a, b) {
         console.log(a,b)
         return a + b;
@@ -85,6 +88,8 @@ class Maths {
 }
 const math = new Maths()
 math.add(2, 4)
+math.say({username:'abc'});
+
 
 let someValue: any = "this is a string";
 
