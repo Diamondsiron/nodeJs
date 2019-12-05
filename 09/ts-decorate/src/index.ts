@@ -1,3 +1,15 @@
+
+import Schema from 'async-validator'
+const xx = {
+    username:[{ required: true, message: "用户名必填" }]
+  }
+  const schema = new Schema(xx)
+  // 校验返回Promise
+  schema.validate({'username': 'value'}).then(() => {
+    // validation passed or without error message
+  }).catch(({ errors, fields }) => {
+    console.log(errors)
+  })
 // 类装饰器
 function anotationClass(id){
     console.log('类装饰器来了', id);
@@ -19,18 +31,53 @@ class Example {
 
 // 日志应用和切面实现
 console.log('日志应用和切面实现.....')
-function log(target, name, descriptor) {
+function logs(target, name, descriptor) {
     console.log(target, name, descriptor)
+    const xx = {
+        username:[{ required: true, message: "用户名必填" }]
+      }
+      
     var oldValue = descriptor.value;
     //修改入参
     descriptor.value = function () {
+        const schema = new Schema(xx)
+        // 校验返回Promise
+        schema.validate({'username': 'value'}).then(() => {
+            // validation passed or without error message
+        }).catch(({ errors, fields }) => {
+            console.log(errors)
+        })
         console.log(`Calling "${name}" with`, arguments);
         return oldValue.apply(null, [1,3]);
     }
     return descriptor;
 }
+var log = (rules) => {
+    return function log(target, name, descriptor) {
+        console.log(target, name, descriptor)
+        const xx = {
+            username:[{ required: true, message: "用户名必填" }]
+        }
+          
+        var oldValue = descriptor.value;
+        //修改入参
+        descriptor.value = function () {
+            const schema = new Schema(rules)
+            schema.validate({'username': 'value'}).then(() => {
+                // validation passed or without error message
+            }).catch(({ errors, fields }) => {
+                throw errors
+            })
+            return oldValue.apply(null, [1,3]);
+        }
+        return descriptor;
+    }
+}
+
 class Maths {
-    @log
+    @log({
+        username:[{ required: true, message: "用户名必填" }]
+    })
     add(a, b) {
         console.log(a,b)
         return a + b;
