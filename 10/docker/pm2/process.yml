@@ -1,0 +1,7 @@
+#相当于package.json中的命令 dev
+apps:
+    - script : app.js
+      instances: 2
+      watch  : true
+      env    :
+        NODE_ENV: production
