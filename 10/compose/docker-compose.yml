@@ -1,0 +1,13 @@
+version: '2.1'
+services:
+  nginx:
+    restart: always
+    image: nginx
+    volumes:
+      #~ /var/local/nginx/nginx.conf为本机目录, /etc/nginx为容器目录
+      - /d/work/website/nodeJs/10/compose/:/etc/nginx/nginx.conf
+      #~ /var/local/app/dist 为本机 build 后的dist目录, /usr/src/app为容器目录
+      - $PWD/www:/usr/src/app
+    ports:
+      - 80:80
+    privileged: true
