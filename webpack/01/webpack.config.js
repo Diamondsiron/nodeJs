@@ -1,6 +1,7 @@
 const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const webpack = require("webpack");
 module.exports = {
     // webpack构建的入口 str | [] | obj
     //   entry: ["./src/index.js", "./src/other.js"],
@@ -14,7 +15,7 @@ module.exports = {
     mode:'development',
     output:{
         path:path.resolve(__dirname, './dist'),
-        filename:'[name]_[chunkhash:8].js'
+        filename:'[name].js'
     },
     module:{
         rules:[
@@ -30,8 +31,25 @@ module.exports = {
                         name:"[name].[ext]"
                     }
                 }
+            },
+            {
+                test: /\.js$/,
+                loader: "babel-loader"
             }
         ]
+    },
+    devServer: {
+        contentBase: path.resolve(__dirname, "./dist"),
+        open: true,
+        port: 8081,
+        hot: true,
+        //! 强制浏览器不会刷新，哪怕你的HMR没有生效
+        hotOnly: true,
+        proxy: {
+          "/api": {
+            target: "http://localhost:9092"
+          }
+        }
     },
     devtool:'cheap-module-eval-source-map',
     plugins:[
@@ -40,7 +58,8 @@ module.exports = {
             template:'./index.html',
             filename:'zz.html'
         }),
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
+        new webpack.HotModuleReplacementPlugin()
     ]
 }
 // spa单页面应用 mpa多页面应用
