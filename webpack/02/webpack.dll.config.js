@@ -7,16 +7,16 @@ module.exports = {
     mode: NODE_ENV,
     entry: ["react","react-dom"],
     output: {
-        path: path.resolve(__dirname, '..', 'dll'),
+        path: path.resolve(__dirname, "./dll"),
         filename: 'react.dll.js',
         library: 'react',
     },
     plugins: [
         new DllPlugin({
             // manifest.json⽂件的输出位置
-            path: path.resolve(__dirname, 'dll/reactmanifest.json'),
-            // 定义打包的公共vendor⽂件对外暴露的函数名
-            name: 'react'
+           //生成manifest.json文件，并指定他的输出位置
+            path: path.join(__dirname, "./dll", "[name]manifest.json"),
+            name: "react" //!name要和library的名称一致
         })
     ]
 }
