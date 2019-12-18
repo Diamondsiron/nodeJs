@@ -35,7 +35,7 @@ const devConfig = {
 
     new webpack.HotModuleReplacementPlugin(),
     new AddAssetHtmlWebpackPlugin({
-        filepath: path.resolve(__dirname, '../dll/react.dll.js') 
+        filepath: path.resolve(__dirname, './dll/react.dll.js') 
         // 对应的 dll路径
     }),
     new webpack.DllReferencePlugin({

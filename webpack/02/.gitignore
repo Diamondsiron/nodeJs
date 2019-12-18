@@ -4,6 +4,7 @@ yarn-error.log
 node_modules/
 dist/
 build/
+mpa/
 dll/
 package-lock.json
 yarn.lock
